@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@theme{
+    --color-primary: #2C3E50;
+    --font-nav:"Outfit","serif";
+    --font-primary:"Merriweather", "serif";
+    --font-secondary:"Inter", "serif";
+    --color-secondary:#1A73E8;
+    --color-secondaryhover:#1662C6; 
+    --font-quote:"Italianno", serif;
+    --breakpoint-xs:30rem;
+}
+
+.navbar .active{
+    background-color: #2C3E50;
+    color: white;
+    padding: 0 5px 0 5px;
+}
+
+.mobile-menu .active{
+    background-color: #2C3E50;
+    color: white;
+    padding: 1px 10px 1px 10px;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
