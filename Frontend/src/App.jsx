@@ -10,9 +10,12 @@ import Notes from "./pages/Notes"
 import Login from "./pages/Login"
 import AddBook from "./pages/AddBook"
 import Footer from './components/Footer'
+import { ToastContainer } from 'react-toastify'
+import ExtractedText from './pages/ExtractedText'
 const App = () => {
   return (
     <div className='flex flex-col min-h-screen'>
+      <ToastContainer />
       <NavBar />
       <div className='mx-[4vw] sm:mx-[10vw] flex-1'>
         <Routes>
@@ -24,6 +27,7 @@ const App = () => {
           <Route path={'/profile'} element={<Profile/>}/>
           <Route path={'/login'} element={<Login/>}/>
           <Route path={'/add-book'} element={<AddBook/>}/>
+          <Route path={'/extracted-text/:id'} element={<ExtractedText/>}/>
         </Routes>
       </div>
       <Footer />

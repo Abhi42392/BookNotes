@@ -1,12 +1,17 @@
-import React from 'react'
-import { allBooks } from '../assets/assets'
+import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
 import Book from '../components/Book'
-
+import { GlobalContext } from '../context/GlobalContextProvider'
+import { useNavigate } from 'react-router-dom'
 const AllBooks = () => {
+  const{token,allBooks}=useContext(GlobalContext)
+  const navigate=useNavigate();
   const createBook=(props)=>{
-    return <Book key={props.id} id={props.id} title={props.title} author={props.author} 
+    return <Book key={props._id} id={props._id} title={props.title} author={props.author} 
     image={props.image} />
+  }
+  if(!token){
+    return <div className='flex justify-center items-center w-full'><p className='text-2xl translate-y-48'><span className='text-primary font-semibold underline cursor-pointer' onClick={()=>{navigate('/login')}}>Login</span> to view Books</p></div>
   }
   return (
     <div className='my-8'>
