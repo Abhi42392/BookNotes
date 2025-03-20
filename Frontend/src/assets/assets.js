@@ -13,15 +13,21 @@ import internet from './internet.png'
 import about_bg from './about-bg.jpg'
 import contact_bg from './contact-bg.png'
 import cross from './cross.png'
+import upload from './upload.png'
+import check from './check_mark.png'
+import book from './book.png'
+import add from './add.png'
+import profile from './profile.png'
 
 export const assets={
     feature_icon1,feature_icon2,feature_icon3,
     hero_bg,
     instagram,facebook,x,
-    profile_pic,search,
+    search,profile,
     menu,
     internet,logout,
-    about_bg,contact_bg,cross
+    about_bg,contact_bg,cross,
+    upload,check,book,add
 }
 
 export const allBooks=[

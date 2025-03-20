@@ -29,10 +29,11 @@ const NavBar = () => {
     </div>
     <div className='relative mx-[10vw] z-20 hidden sm:block'>
       {showMenu&&
-      <div className='absolute top-0 right-0 bg-stone-100 text-lg  px-8 py-4 rounded-md w-[200px] border border-gray-300'>
-        <p className='cursor-pointer pb-2 text-gray-600 font-semibold hover:text-black' onClick={()=>{navigate("/profile"); setShowMenu(false)}}>My profile</p>
-        <p className='cursor-pointer pb-2 text-gray-600 font-semibold hover:text-black' onClick={()=>{navigate("/my-books"); setShowMenu(false)}}>My Books</p>
-        <button className='flex gap-2 items-center cursor-pointer text-gray-600 font-semibold hover:text-black'onClick={()=>{setShowMenu(false),handleLogout()}} ><p>Logout</p><img src={assets.logout} alt="logout" className='w-6 h-6' /></button>
+      <div className='absolute top-0 right-0 bg-stone-100 text-lg  px-8 py-4 rounded-md w-[250px] border border-gray-300'>
+        <div className='cursor-pointer pb-2 text-gray-600 font-semibold hover:text-black' onClick={()=>{navigate("/profile"); setShowMenu(false)}}><span className='flex gap-4 items-center'><img className="w-6 h-6" src={assets.profile} alt="profile" /><p>My Profile</p></span></div>
+        <div className='cursor-pointer pb-2 text-gray-600 font-semibold hover:text-black' onClick={()=>{navigate("/my-books"); setShowMenu(false)}}><span className='flex gap-4 items-center'><img className="w-6 h-6" src={assets.book} alt="book icon" /><p>My Books</p></span></div>
+        <div className='cursor-pointer pb-2 text-gray-600 font-semibold hover:text-black' onClick={()=>{navigate("/add-book"); setShowMenu(false)}}><span className='flex gap-4 items-center'><img className="w-6 h-6" src={assets.add} alt="Add book" /><p>Add Book</p></span></div>
+        <button className='flex gap-4 items-center cursor-pointer text-gray-600 font-semibold hover:text-black'onClick={()=>{setShowMenu(false),handleLogout()}} ><img src={assets.logout} alt="logout" className='w-6 h-6' /><p>Logout</p></button>
       </div>}
     </div>
     {showMenu&&<div className='block sm:hidden'>

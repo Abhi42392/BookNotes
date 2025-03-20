@@ -1,16 +1,22 @@
-
 import notesModel from '../models/notesModel.js'
 import axios from 'axios'
 import { exec } from "child_process"
 import fs from "fs"
+import userModel from '../models/userModel.js'
+
 const addNotes=async(req,res)=>{
     const{title,author,userId}=req.body;
     try{
         if(!title||!author){
             return res.json({success:false,message:"Insufficient information"})
         }
+        const book=await notesModel.find({title:title,author:author});
+        console.log(book)
+        if(book.length>0){
+            return res.json({success:false,message:"Book already exists"})
+        }
         const bookInfo=await axios.get(`https://openlibrary.org/search.json?title=${title}&author=${author}`)
-        if(!bookInfo.data||!bookInfo.data.docs||bookInfo.data.docs[0].length==0){
+        if(!bookInfo.data||bookInfo.data.docs.length==0){
             return res.json({success:false,message:"Enter title and author name clearly"})
         }
         const cover_i=bookInfo.data.docs[0].cover_i;

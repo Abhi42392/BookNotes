@@ -6,6 +6,7 @@ const GlobalContextProvider = ({children}) => {
   const[token,setToken]=useState(localStorage.getItem("token")?localStorage.getItem("token"):"");
   const[userInfo,setUserInfo]=useState({});
   const[allBooks,setAllBooks]=useState([]);
+  const[loading,setLoading]=useState(false);
   const fetchUserInfo=async(token)=>{
     try{
       const response=await axios.post(`${backendUrl}/api/user/get-user-info`,{},{headers:{token}});
@@ -20,14 +21,17 @@ const GlobalContextProvider = ({children}) => {
   }
   const fetchAllBooks=async(token)=>{
     try{
+      setLoading(true);
       const response=await axios.post(`${backendUrl}/api/notes/all-notes`,{},{headers:{token}});
       if(response.data.success){
         setAllBooks(response.data.message);
+        setLoading(false)
       }else{
         throw new Error("Error fetching notes")
       }
     }catch(err){
       console.log(err);
+      setLoading(false)
     }
   }
   useEffect(()=>{
@@ -37,7 +41,7 @@ const GlobalContextProvider = ({children}) => {
     }
   },[token])
   return (
-   <GlobalContext.Provider value={{backendUrl,setToken,token,userInfo,setUserInfo,allBooks}}>
+   <GlobalContext.Provider value={{backendUrl,setToken,token,userInfo,setUserInfo,allBooks,setLoading,loading}}>
     {children}
    </GlobalContext.Provider>
   )

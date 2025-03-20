@@ -1,12 +1,11 @@
 import React, { useState,useContext } from 'react'
-import {assets} from '../assets/assets'
 import { GlobalContext } from '../context/GlobalContextProvider'
 import axios from 'axios'
 import{toast} from 'react-toastify'
 const Profile = () => {
   const[isEdit,setIsEdit]=useState(false)
   const{userInfo,setUserInfo,token,backendUrl}=useContext(GlobalContext)
-  
+  const{allBooks}=useContext(GlobalContext)
   const handleSubmit=async(e)=>{
     e.preventDefault();
     if(!isEdit){
@@ -38,7 +37,7 @@ const Profile = () => {
         </div>
         <div className='flex justify-between  gap-5 sm:gap-15  max-sm:overflow-x-scroll my-7 sm:my-10'>
           <div className='min-w-[150px] w-full'>
-          <p className='flex justify-center items-center  font-bold text-2xl sm:text-4xl border-2 border-primary h-[50px] sm:h-[100px] rounded-t-md'>{userInfo.total_books}</p>
+          <p className='flex justify-center items-center  font-bold text-2xl sm:text-4xl border-2 border-primary h-[50px] sm:h-[100px] rounded-t-md'>{allBooks.length}</p>
           <p className='bg-primary text-center py-1 sm:py-2 text-white rounded-b-md text-sm sm:text-base'>Total Books</p>
           </div>
           <div className='min-w-[150px] w-full'>

@@ -4,12 +4,15 @@ import TextareaAutosize from "react-textarea-autosize";
 import { GlobalContext } from '../context/GlobalContextProvider';
 import axios from 'axios';
 import {toast} from 'react-toastify'
+import { assets } from '../assets/assets';
 const Notes = () => {
   const id=useParams().id;
   const{backendUrl,token}=useContext(GlobalContext);
   const[isEdit,setIsEdit]=useState(false);
   const[bookInfo,setBookInfo]=useState(false)
   const[ebook,setEBook]=useState('');
+  const[isUploaded,setIsUploaded]=useState(false);
+  const[loading,setLoading]=useState(false);
   const lineHeight = 24;
   const maxHeight = 500;
   const maxRows = Math.floor(maxHeight / lineHeight);
@@ -17,13 +20,21 @@ const Notes = () => {
 
   const uploadEbook=async()=>{
     try{
+      setLoading(true);
       const fd=new FormData();
       fd.append('id',id);
       ebook&&fd.append('pdf',ebook);
       const response=await axios.post(`${backendUrl}/api/notes/upload-ebook`,fd,{headers:{token}});
-      console.log(response.data)
+      if(response.data.success){
+        setIsUploaded(true);
+        setLoading(false)
+      }else{
+        throw new Error("Failed to upload")
+      }
     }catch(err){
       console.log(err)
+      setLoading(false)
+      toast.error(err.message||"Something went wrong")
     }
   }
  
@@ -68,20 +79,27 @@ const Notes = () => {
       <div className='flex gap-7 sm:gap-15   mt-4'>
         <div className='w-[120px] sm:w-[160px]'><img src={bookInfo.image} alt="book cover" className='w-full' /></div>
         <div className='w-[75%] sm:w-[60%] '>
-          <h1 className=' text-xl sm:text-3xl font-bold leading-5'>{bookInfo.title}</h1>
-          <h2 className='text-lg sm:text-2xl sm:mt-4 font-semibold'>{bookInfo.author}</h2>
-          <p className='text-md sm:text-lg sm:mt-2'>Last read: {bookInfo.lastRead}</p>
+          <h1 className=' text-xl sm:text-3xl  font-bold leading-5'>{bookInfo.title}</h1>
+          <h2 className='text-lg sm:text-2xl mt-2 sm:mt-4 font-semibold'>{bookInfo.author}</h2>
+          <p className='text-md sm:text-lg mt-1 sm:mt-2'>Last read: {bookInfo.lastRead}</p>
           
             {isEdit?
-            <div className='my-4'>
-              <label htmlFor="pdf" className='text-xs sm:text-sm sm:mt-3 bg-amber-200 px-2 py-1 rounded-sm text-black cursor-pointer'>Update Ebook</label>
+            <div className='mb-4'>
+              <label htmlFor="pdf" className='mt-3 flex w-fit gap-3 items-center text-xs sm:text-sm sm:mt-3 bg-amber-200 px-3 py-2 sm:px-5 sm:py-3 rounded-sm text-black cursor-pointer'>
+                {loading?<div className='w-4 h-4 sm:w-6 sm:h-6 rounded-full border-2 border-t-black border-amber-200 animate-spin'></div>:isUploaded?<img className="w-4 sm:w-6" src={assets.check} alt="tick icon"/>:<img className="w-4 sm:w-6" src={assets.upload}  alt="upload icon"/>}
+                <p>Update Ebook</p>
+              </label>
               <input id="pdf" type="file" hidden onChange={(e)=>{setEBook(e.target.files[0])}}/>
             </div>
             :
-            <div className='my-4'>
-              {bookInfo.ebook.length==0?<div><label htmlFor="pdf" className='text-xs sm:text-sm sm:mt-3 bg-amber-200 px-2 py-1 rounded-sm text-black cursor-pointer'>Upload Ebook</label>
+            <div className='mb-4'>
+              {bookInfo.ebook.length==0?<div>
+                <label htmlFor="pdf" className='mt-3 flex w-fit gap-3 items-center text-xs sm:text-sm sm:mt-3 bg-amber-200 px-3 py-2 sm:px-5 sm:py-3 rounded-sm text-black cursor-pointer'>
+                  {loading?<div className='w-4 h-4 sm:w-6 sm:h-6 rounded-full border-2 border-t-black border-amber-200 animate-spin'></div>:isUploaded?<img className="w-4 sm:w-6" src={assets.check} alt="tick icon"/>:<img className="w-4 sm:w-6" src={assets.upload}  alt="upload icon"/>}
+                  <p>Upload Ebook</p>
+                </label>
                 <input id="pdf" type="file" hidden onChange={(e)=>{setEBook(e.target.files[0])}}/></div>:
-                <button className='text-xs sm:text-sm sm:mt-2 bg-amber-200 px-2 py-1 rounded-sm text-black cursor-pointer' onClick={()=>{navigate(`/extracted-text/${id}`)}}>View Ebook</button>
+                <button className='text-xs sm:text-sm mt-3 bg-amber-200 px-3 py-2 sm:px-5 sm:py-3 rounded-sm text-black cursor-pointer' onClick={()=>{navigate(`/extracted-text/${id}`)}} ><span className='flex gap-3 items-center'><img className="w-4 sm:w-6" src={assets.book} alt="book icon" /><p>View Ebook</p></span></button>
               }
               
             </div>
@@ -90,10 +108,11 @@ const Notes = () => {
           
         </div>
       </div>
+      <h1 className='mt-[8vw] mb-[4vw] sm:mt-[4vw] sm:mb-[2vw] text-primary font-bold text-2xl sm:text-3xl'>My Notes</h1>
         <div>
           {!isEdit? <TextareaAutosize
           readOnly
-            className='bg-[#FAFAFA] text-[#2D2D2D] p-4 resize-none outline-none sm:p-8 border-[1px] border-[#ccc] rounded-xl text-[20px] shadow-md mt-[4vw] w-full max-h-[530px] overflow-y-auto'
+            className='bg-[#FAFAFA] text-[#2D2D2D] p-4 resize-none outline-none sm:p-8 border-[1px] border-[#ccc] rounded-xl text-sm sm:text-[20px] shadow-md S w-full max-h-[530px] overflow-y-auto'
              // Minimum height
             maxRows={maxRows} // Maximum height before scrollbar
             value={bookInfo.notes}
@@ -101,7 +120,7 @@ const Notes = () => {
           />
           :
           <TextareaAutosize
-            className="bg-[#FAFAFA] text-[#2D2D2D] p-8 border-[1px]  rounded-xl text-[20px] shadow-md outline-2 outline-secondary border-[#ffffff] w-full mt-[4vw] overflow-y-auto resize-none"
+            className="bg-[#FAFAFA] text-[#2D2D2D] p-4 sm:p-8 border-[1px]  rounded-xl text-sm sm:text-[20px] shadow-md outline-2 outline-secondary border-[#ffffff] w-full overflow-y-auto resize-none"
             // Minimum height
             maxRows={maxRows} // Maximum height before scrollbar
             value={bookInfo.notes}

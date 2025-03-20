@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {Routes,Route} from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from "./pages/Home"
@@ -12,7 +12,12 @@ import AddBook from "./pages/AddBook"
 import Footer from './components/Footer'
 import { ToastContainer } from 'react-toastify'
 import ExtractedText from './pages/ExtractedText'
+import { GlobalContext } from './context/GlobalContextProvider'
 const App = () => {
+  const{loading}=useContext(GlobalContext)
+  if(loading){
+    return <div className='min-h-screen flex justify-center items-center'><div className='h-16 w-16 rounded-full border-8 border-t-primary border-white animate-spin '></div></div>
+  }
   return (
     <div className='flex flex-col min-h-screen'>
       <ToastContainer />
