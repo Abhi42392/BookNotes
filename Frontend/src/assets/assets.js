@@ -150,8 +150,3 @@ export const user={
     streak:10
 }
 
-//Google book cover api:https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=yourAPIKey
-//api key:AIzaSyA7uURij-9L3XQ9uODdhcUJZohjRngruoE
-
-//Open library api for book cover:https://covers.openlibrary.org/b/id/{cover-id}-L.jpg
-//Open library api for book info:https://openlibrary.org/search.json?title=book_name&author=author_name
