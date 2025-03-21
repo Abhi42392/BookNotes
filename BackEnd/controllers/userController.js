@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import userModel from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 import {v2 as cloudinary} from 'cloudinary'
-
+import notesModel from '../models/notesModel.js'
 
 
 const createToken=(id)=>{
@@ -89,4 +89,16 @@ const getUserInfo=async(req,res)=>{
     }
 }
 
-export {register,login,editUserInfo,getUserInfo}
+const lastRead=async(req,res)=>{
+    try{
+        const{userId,bookId}=req.body;
+        const book=await notesModel.findById(bookId);
+        const title=book.title;
+        await userModel.findByIdAndUpdate(userId,{last_read:title});
+        return res.json({success:true,message:"Last read updated"})
+    }catch(err){
+      return res.json({success:false,message:err.message})
+    }
+}
+
+export {register,login,editUserInfo,getUserInfo,lastRead}

@@ -6,7 +6,7 @@ const notesSchema=new mongoose.Schema({
     author:{type:String,required:true},
     image:{type:String,required:true},
     notes:{type:String,default:""},
-    lastRead:{type:String,default:Date.now},
+    lastRead:{type:Number,default:Date.now},
     ebook:{type:Array,default:[]},
 })
 

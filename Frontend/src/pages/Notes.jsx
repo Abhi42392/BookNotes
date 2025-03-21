@@ -18,6 +18,24 @@ const Notes = () => {
   const maxRows = Math.floor(maxHeight / lineHeight);
   const navigate=useNavigate();
 
+  const dateFormat=()=>{
+    const ms=bookInfo.lastRead;
+    const date = new Date(ms);
+    return date.toISOString().split("T")[0] 
+  }
+  const lastRead=async()=>{
+    try{
+      const response=await axios.post(`${backendUrl}/api/user/last-read`,{bookId:id},{headers:{token}});
+      if(response.data){
+        console.log(response.data.message);
+      }else{
+        throw new Error('Error is updating last read')
+      }
+    }catch(err){
+      console.log(err.message||'Something went wrong')
+    }
+  }
+
   const uploadEbook=async()=>{
     try{
       setLoading(true);
@@ -68,6 +86,10 @@ const Notes = () => {
   useEffect(()=>{
     fetchBookInfo()
   },[])
+  useEffect(()=>{
+    lastRead()
+    console.log(id)
+  },[id])
 
   useEffect(()=>{
     if(ebook){
@@ -81,7 +103,7 @@ const Notes = () => {
         <div className='w-[75%] sm:w-[60%] '>
           <h1 className=' text-xl sm:text-3xl  font-bold leading-5'>{bookInfo.title}</h1>
           <h2 className='text-lg sm:text-2xl mt-2 sm:mt-4 font-semibold'>{bookInfo.author}</h2>
-          <p className='text-md sm:text-lg mt-1 sm:mt-2'>Last read: {bookInfo.lastRead}</p>
+          <p className='text-md sm:text-lg mt-1 sm:mt-2'>Last read: {dateFormat()}</p>
           
             {isEdit?
             <div className='mb-4'>

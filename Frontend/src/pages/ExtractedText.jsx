@@ -18,6 +18,11 @@ const ExtractedText = () => {
           console.log(err.message);
         }
       }
+      const dateFormat=()=>{
+        const ms=bookInfo.lastRead;
+        const date = new Date(ms);
+        return date.toISOString().split("T")[0] 
+      }
     useEffect(()=>{
         fetchBookInfo()
     },[])
@@ -28,7 +33,7 @@ const ExtractedText = () => {
             <div className='w-[75%] sm:w-[60%] '>
               <h1 className=' text-xl sm:text-3xl font-bold leading-5'>{bookInfo.title}</h1>
               <h2 className='text-lg sm:text-2xl mt-2 sm:mt-4 font-semibold'>{bookInfo.author}</h2>
-              <p className='text-md sm:text-lg mt-1 sm:mt-2'>Last read: {bookInfo.lastRead}</p>
+              <p className='text-md sm:text-lg mt-1 sm:mt-2'>Last read: {dateFormat()}</p>
               <button className='text-xs sm:text-sm mt-2 sm:mt-4 bg-amber-200 px-3 py-2 sm:px-5 sm:py-3 rounded-sm text-black cursor-pointer' onClick={()=>{navigate(-1)}}><span className='flex gap-2 sm:gap-3 items-center'><img className="w-4 sm:w-6" src={assets.book} alt="book icon" /><p>View Notes</p></span></button>
             </div>
           </div>

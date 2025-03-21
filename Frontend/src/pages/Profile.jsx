@@ -2,6 +2,7 @@ import React, { useState,useContext } from 'react'
 import { GlobalContext } from '../context/GlobalContextProvider'
 import axios from 'axios'
 import{toast} from 'react-toastify'
+import { assets } from '../assets/assets'
 const Profile = () => {
   const[isEdit,setIsEdit]=useState(false)
   const{userInfo,setUserInfo,token,backendUrl}=useContext(GlobalContext)
@@ -28,11 +29,25 @@ const Profile = () => {
       }
     }
   }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setUserInfo((prev) => ({ ...prev, image: imageUrl }));
+    }
+  };
   return userInfo&& (
     <div className='mt-[2vw] lg:w-[70%] mx-auto max-w-[750px]'>
       <form onSubmit={handleSubmit}>
         <div className='flex justify-around items-center rounded-xl shadow-md border border-gray-300 py-3 sm:py-6'>
-          <img src={userInfo.image} alt="profile pic" className='h-10 w-10 sm:w-25 sm:h-25 rounded-full'/>
+          {isEdit?
+          <div>
+            <label htmlFor="image">
+              <img className='h-10 w-10 sm:w-25 sm:h-25 rounded-full' src={userInfo.image} alt="profile"/>
+            </label>
+            <input type="file" accept='image/*' id="image"  onChange={handleImageChange} hidden/>
+          </div>
+          :<img src={userInfo.image} alt="profile pic" className='h-10 w-10 sm:w-25 sm:h-25 rounded-full'/>}
           <h1 className='text-2xl sm:text-4xl font-bold font-secondary text-primary'>{userInfo.name}</h1>
         </div>
         <div className='flex justify-between  gap-5 sm:gap-15  max-sm:overflow-x-scroll my-7 sm:my-10'>

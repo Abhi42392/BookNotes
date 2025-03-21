@@ -11,7 +11,6 @@ const addNotes=async(req,res)=>{
             return res.json({success:false,message:"Insufficient information"})
         }
         const book=await notesModel.find({title:title,author:author});
-        console.log(book)
         if(book.length>0){
             return res.json({success:false,message:"Book already exists"})
         }
@@ -49,9 +48,11 @@ const allNotes=async(req,res)=>{
 const saveNotes=async(req,res)=>{
     const{id,notes}=req.body;
     try{
-        const note=await notesModel.findByIdAndUpdate(id,{notes});
+        const date=Date.now();
+        const note=await notesModel.findByIdAndUpdate(id,{notes,lastRead:date});
         return res.json({success:true,message:note});
     }catch(err){
+        console.log(err)
         return res.json({success:false,message:"failed update notes"});
     }
 }
@@ -70,7 +71,6 @@ const getNotes=async(req,res)=>{
         try {
             const id=req.body.id;
             const pdfPath = req.file.path;
-            console.log(id);
             
             exec(`python python/HighlightExtract.py "${pdfPath}"`, async (error, stdout, stderr) => {
                 if (error) {
