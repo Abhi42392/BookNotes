@@ -43,7 +43,7 @@ const Profile = () => {
           {isEdit?
           <div>
             <label htmlFor="image">
-              <img className='h-10 w-10 sm:w-25 sm:h-25 rounded-full' src={userInfo.image} alt="profile"/>
+              <img className='h-10 w-10 sm:w-25 sm:h-25 rounded-full curser-pointer' src={userInfo.image} alt="profile"/>
             </label>
             <input type="file" accept='image/*' id="image"  onChange={handleImageChange} hidden/>
           </div>
