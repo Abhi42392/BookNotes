@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 export const GlobalContext=createContext();
 const GlobalContextProvider = ({children}) => {
-  const backendUrl="https://booknotes-1-0rd4.onrender.com"
+  const backendUrl="https://booknotes-sqq1.onrender.com"
   const[token,setToken]=useState(localStorage.getItem("token")?localStorage.getItem("token"):"");
   const[userInfo,setUserInfo]=useState({});
   const[allBooks,setAllBooks]=useState([]);
