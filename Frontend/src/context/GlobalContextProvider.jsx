@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 export const GlobalContext=createContext();
 const GlobalContextProvider = ({children}) => {
-  const backendUrl="http://localhost:4000"
+  const backendUrl="https://dashboard.render.com"
   const[token,setToken]=useState(localStorage.getItem("token")?localStorage.getItem("token"):"");
   const[userInfo,setUserInfo]=useState({});
   const[allBooks,setAllBooks]=useState([]);
