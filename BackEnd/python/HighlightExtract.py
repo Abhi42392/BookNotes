@@ -1,6 +1,5 @@
 import fitz
 import json
-import re
 import sys
 
 def extract_highlighted_text(pdf_path):

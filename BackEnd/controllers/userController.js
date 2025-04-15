@@ -58,7 +58,6 @@ const login=async(req,res)=>{
 const editUserInfo=async(req,res)=>{
     try{
         const{userId,phone,name,email}=req.body;
-        console.log(phone,name,email)
         if(!name||!phone||!email){
             return res.json({success:false,message:"Insufficient Credentials"})
         }
@@ -71,7 +70,7 @@ const editUserInfo=async(req,res)=>{
         }
         return res.json({success:true,message:"User data updated"})
     }catch(err){
-        console.log(err)
+        
       return res.json({success:false,message:err.message})
     }
 }

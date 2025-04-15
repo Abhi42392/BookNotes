@@ -88,7 +88,6 @@ const Notes = () => {
   },[])
   useEffect(()=>{
     lastRead()
-    console.log(id)
   },[id])
 
   useEffect(()=>{

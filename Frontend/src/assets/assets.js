@@ -5,7 +5,7 @@ import hero_bg from './hero-bg.png'
 import instagram from './instagram.png'
 import x from './x.png'
 import facebook from './facebook.png'
-import profile_pic from './profile-pic.jpg'
+
 import search from './search.png'
 import menu from './menu.png'
 import logout from './logout.png'

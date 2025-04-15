@@ -2,7 +2,7 @@ import notesModel from '../models/notesModel.js'
 import axios from 'axios'
 import { exec } from "child_process"
 import fs from "fs"
-import userModel from '../models/userModel.js'
+
 
 const addNotes=async(req,res)=>{
     const{title,author,userId}=req.body;
