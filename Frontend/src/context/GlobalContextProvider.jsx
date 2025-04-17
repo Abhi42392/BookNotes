@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 export const GlobalContext=createContext();
 const GlobalContextProvider = ({children}) => {
-  const backendUrl="https://booknotes-sqq1.onrender.com"
+  const backendUrl="http://localhost:4000"
   const[token,setToken]=useState(localStorage.getItem("token")?localStorage.getItem("token"):"");
   const[userInfo,setUserInfo]=useState({});
   const[allBooks,setAllBooks]=useState([]);
@@ -37,11 +37,11 @@ const GlobalContextProvider = ({children}) => {
   useEffect(()=>{
     if(token){
       fetchUserInfo(token);
-      fetchAllBooks(token)
+      fetchAllBooks(token);
     }
   },[token])
   return (
-   <GlobalContext.Provider value={{backendUrl,setToken,token,userInfo,setUserInfo,allBooks,setLoading,loading}}>
+   <GlobalContext.Provider value={{backendUrl,setToken,token,userInfo,setUserInfo,allBooks,fetchUserInfo,setLoading,loading}}>
     {children}
    </GlobalContext.Provider>
   )

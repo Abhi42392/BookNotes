@@ -61,16 +61,21 @@ const editUserInfo=async(req,res)=>{
         if(!name||!phone||!email){
             return res.json({success:false,message:"Insufficient Credentials"})
         }
-        const image=req.file;
         await userModel.findByIdAndUpdate(userId,{name,email,phone})
+        const image=req.file;
         if(image){
-            const imageUpload=await cloudinary.uploader.upload(image.path,{resource_type:"image"});
-            const imageUrl=imageUpload.secure_url;
-            await userModel.findByIdAndUpdate(userId,{image:imageUrl})
+            try{
+                const imageUpload=await cloudinary.uploader.upload(image.path,{resource_type:"image"});
+                const imageUrl=imageUpload.secure_url;
+                await userModel.findByIdAndUpdate(userId,{image:imageUrl})
+            }catch(err){
+                console.log(err)
+                return res.json({success:false,message:err.message})
+            }
         }
         return res.json({success:true,message:"User data updated"})
     }catch(err){
-        
+        console.log(err)
       return res.json({success:false,message:err.message})
     }
 }

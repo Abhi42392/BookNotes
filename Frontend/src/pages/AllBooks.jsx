@@ -5,7 +5,6 @@ import { GlobalContext } from '../context/GlobalContextProvider'
 import { useNavigate } from 'react-router-dom'
 const AllBooks = () => {
   const{token,allBooks}=useContext(GlobalContext)
-  const{loading}=useContext(GlobalContext)
   const[searchBook,setSearchBook]=useState('')
   const navigate=useNavigate();
   const createBook=(props)=>{
@@ -15,9 +14,7 @@ const AllBooks = () => {
   if(!token){
     return <div className='flex justify-center items-center w-full'><p className='text-2xl translate-y-48'><span className='text-primary font-semibold underline cursor-pointer' onClick={()=>{navigate('/login')}}>Login</span> to view Books</p></div>
   }
-  if(loading){
-    return <div className='min-h-screen flex justify-center items-center'><div className='h-15 w-15 rounded border-8 border-t-primary border-white animate-spin '></div></div>
-  }
+
   return (
     <div className='my-8'>
       <div className='rounded-full shadow-md border border-gray-300 sm:w-[65%] lg:w-[45%] px-6 py-2 flex justify-between items-center cursor-pointer mx-auto my-8'>
@@ -26,7 +23,8 @@ const AllBooks = () => {
       </div>
       <div className='my-[5vw] grid max-xs:grid-cols-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-12'>
         {allBooks.filter((book)=>{
-          if(searchBook===''||book.title===searchBook||book.title.includes(searchBook)){
+          console.log(book.title.includes(searchBook))
+          if(searchBook===''||book.title.toLowerCase()===searchBook.toLowerCase()||book.title.toLowerCase().includes(searchBook.toLowerCase())){
             return true;
           }
         }).map(createBook)}

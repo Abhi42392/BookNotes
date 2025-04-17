@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 const Book = (props) => {
   const navigate=useNavigate();
-  console.log(props);
-  
   return (
     <div className='shadow-md rounded-sm cursor-pointer hover:scale-110 transition-transform ease' onClick={()=>{navigate(`notes/${props.id}`)}}>
-      <img src={props.image} alt="Book cover" className='w-full h-full rounded-sm'/> 
+      <img src={props.image} alt="Book cover" className='w-full h-full rounded-sm' id="img"/> 
     </div>
   )
 }

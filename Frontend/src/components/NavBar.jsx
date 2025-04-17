@@ -22,7 +22,7 @@ const NavBar = () => {
         {token?<NavLink to={"/my-books"}>My Books</NavLink>:<></>}
       </div>
       {!token?<button onClick={()=>{navigate("/login")}} className='ml-4 sm:ml-8  font-nav font-light cursor-pointer bg-secondary text-white rounded-full px-4  sm:px-8 py-1 hover:bg-secondaryhover'>Login</button>:
-      <img src={userInfo.image} className='hidden sm:block ml-8 w-8 h-8 rounded-full cursor-pointer' onClick={()=>{setShowMenu(!showMenu)}}/>}
+      <img src={userInfo.image instanceof Blob?URL.createObjectURL(userInfo.image):userInfo.image} className='hidden sm:block ml-8 w-8 h-8 rounded-full cursor-pointer' onClick={()=>{setShowMenu(!showMenu)}}/>}
       {!showMenu?<img src={assets.menu} alt="menu icon" className='w-8 ml-4 block sm:hidden' onClick={()=>{setShowMenu(true)}} />
       :
       <img src={assets.cross} alt="cross icon" className='w-8 ml-4 block sm:hidden' onClick={()=>{setShowMenu(false)}}/>}

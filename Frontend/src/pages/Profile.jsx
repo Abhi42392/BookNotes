@@ -6,6 +6,7 @@ import { assets } from '../assets/assets'
 const Profile = () => {
   const[isEdit,setIsEdit]=useState(false)
   const{userInfo,setUserInfo,token,backendUrl}=useContext(GlobalContext)
+  const[isUpdated,setIsUpdated]=useState(false)
   const{allBooks}=useContext(GlobalContext)
   const handleSubmit=async(e)=>{
     e.preventDefault();
@@ -16,10 +17,12 @@ const Profile = () => {
         fd.append('phone',userInfo.phone);
         fd.append('email',userInfo.email);
         fd.append('image',userInfo.image);
+        console.log(userInfo.image)
         
         const response =await axios.post(`${backendUrl}/api/user/edit-user-info`,fd,{headers:{token}});
         if(response.data.success){
           toast.success('User data updated');
+         
         }else{
           throw new Error('Failed to update')
         }
@@ -32,7 +35,8 @@ const Profile = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
+      const imageUrl = file;
+      setIsUpdated(true);
       setUserInfo((prev) => ({ ...prev, image: imageUrl }));
     }
   };
@@ -43,11 +47,11 @@ const Profile = () => {
           {isEdit?
           <div>
             <label htmlFor="image">
-              <img className='h-10 w-10 sm:w-25 sm:h-25 rounded-full curser-pointer' src={userInfo.image} alt="profile"/>
+              <img className='h-10 w-10 sm:w-25 sm:h-25 rounded-full curser-pointer' src={userInfo.image instanceof Blob?URL.createObjectURL(userInfo.image):userInfo.image} alt="profile"/>
             </label>
             <input type="file" accept='image/*' id="image"  onChange={handleImageChange} hidden/>
           </div>
-          :<img src={userInfo.image} alt="profile pic" className='h-10 w-10 sm:w-25 sm:h-25 rounded-full'/>}
+          :<img src={userInfo.image instanceof Blob?URL.createObjectURL(userInfo.image):userInfo.image} alt="profile pic" className='h-10 w-10 sm:w-25 sm:h-25 rounded-full'/>}
           <h1 className='text-2xl sm:text-4xl font-bold font-secondary text-primary'>{userInfo.name}</h1>
         </div>
         <div className='flex justify-between  gap-5 sm:gap-15  max-sm:overflow-x-scroll my-7 sm:my-10'>
